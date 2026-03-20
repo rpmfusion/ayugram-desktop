@@ -11,7 +11,7 @@
 
 Name: ayugram-desktop
 Version: 6.3.10
-Release: 1%{?dist}
+Release: 2%{?dist}
 
 # Application and 3rd-party modules licensing:
 # * AyuGram Desktop - GPL-3.0-or-later with OpenSSL exception -- main tarball;
@@ -229,5 +229,8 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/com.ayugram.desktop.d
 %{_metainfodir}/com.ayugram.desktop.metainfo.xml
 
 %changelog
+* Fri Mar 20 2026 Nicolas Chauvet <kwizart@gmail.com> - 6.3.10-2
+- Rebuilt for libvpx-1.16.0
+
 * Mon Feb 02 2026 Ivan Romanov <drizt72@zoho.eu> - 6.3.10-1
 - Initial version based on RPM Fusion tdesktop package
