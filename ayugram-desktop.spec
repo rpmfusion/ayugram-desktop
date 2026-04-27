@@ -10,8 +10,8 @@
 %global optflags %(echo %{optflags} | sed 's/-g /-g1 /')
 
 Name: ayugram-desktop
-Version: 6.3.10
-Release: 2%{?dist}
+Version: 6.7.8
+Release: 1%{?dist}
 
 # Application and 3rd-party modules licensing:
 # * AyuGram Desktop - GPL-3.0-or-later with OpenSSL exception -- main tarball;
@@ -229,6 +229,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/com.ayugram.desktop.d
 %{_metainfodir}/com.ayugram.desktop.metainfo.xml
 
 %changelog
+* Mon Apr 27 2026 Ivan Romanov <drizt72@zoho.eu> - 6.7.8-1
+- Bump to 6.7.8
+
 * Fri Mar 20 2026 Nicolas Chauvet <kwizart@gmail.com> - 6.3.10-2
 - Rebuilt for libvpx-1.16.0
 
