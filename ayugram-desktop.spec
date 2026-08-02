@@ -11,7 +11,7 @@
 
 Name: ayugram-desktop
 Version: 6.7.8
-Release: 2%{?dist}
+Release: 3%{?dist}
 
 # Application and 3rd-party modules licensing:
 # * AyuGram Desktop - GPL-3.0-or-later with OpenSSL exception -- main tarball;
@@ -231,6 +231,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/com.ayugram.desktop.d
 %{_metainfodir}/com.ayugram.desktop.metainfo.xml
 
 %changelog
+* Sun Aug 02 2026 RPM Fusion Release Engineering <leigh123linux@rpmfusion.org> - 6.7.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_45_Mass_Rebuild
+
 * Wed May 06 2026 Ivan Romanov <drizt72@zoho.eu> - 6.7.8-2
 - Add patch fix-hide-premium-statuses.patch
 
