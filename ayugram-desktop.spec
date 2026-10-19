@@ -10,8 +10,8 @@
 %global optflags %(echo %{optflags} | sed 's/-g /-g1 /')
 
 Name: ayugram-desktop
-Version: 6.7.8
-Release: 4%{?dist}
+Version: 7.2.9
+Release: 1%{?dist}
 
 # Application and 3rd-party modules licensing:
 # * AyuGram Desktop - GPL-3.0-or-later with OpenSSL exception -- main tarball;
@@ -32,16 +32,14 @@ Summary: Desktop Telegram client with good customization and Ghost mode
 # Also it bundles some 3rd-party libraries. In most generating script does
 # git clone --recursive --branch "v${VERSION}" ...
 
-# create-ayugram-tarball-full.sh 6.3.10.
+# create-ayugram-tarball-full.sh 7.2.9.
 Source0: AyuGramDesktop-%{version}-full.tar.gz
 Source1: create-ayugram-tarball-full.sh
 
 # Fix searching protobuf cmake module
 Patch0: findprotobuf_fix.patch
-# Fix compilation with gcc16
-Patch1: gcc16.patch
-# Fix saving hide premium statuses to config file
-Patch2: fix-hide-premium-statuses.patch
+# Fix cmake with new version of Microsoft.GSL
+Patch1: gsl.patch
 # AyuGram Desktop require more than 8 GB of RAM on linking stage.
 # Disabling all low-memory architectures.
 ExclusiveArch: x86_64 aarch64
@@ -87,16 +85,17 @@ BuildRequires: pkgconfig(libswresample)
 BuildRequires: pkgconfig(libswscale)
 BuildRequires: pkgconfig(libxxhash)
 BuildRequires: pkgconfig(opus)
-BuildRequires: pkgconfig(protobuf)
 BuildRequires: pkgconfig(protobuf-lite)
+BuildRequires: pkgconfig(protobuf)
 BuildRequires: pkgconfig(rnnoise)
+BuildRequires: pkgconfig(tlottie)
 BuildRequires: pkgconfig(vpx)
 BuildRequires: pkgconfig(wayland-client)
 BuildRequires: pkgconfig(webkitgtk-6.0)
-BuildRequires: pkgconfig(xcb)
 BuildRequires: pkgconfig(xcb-keysyms)
 BuildRequires: pkgconfig(xcb-record)
 BuildRequires: pkgconfig(xcb-screensaver)
+BuildRequires: pkgconfig(xcb)
 
 BuildRequires: boost-devel
 BuildRequires: cmake
@@ -127,46 +126,44 @@ Provides: ayugram%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
 # Virtual provides for bundled libraries...
 # https://github.com/google/cld3.git
 Provides: bundled(cld3) = 3.0.13~gitb48dc46
- # https://github.com/desktop-app/cmake_helpers.git
-Provides: bundled(cmake_helpers) = 0~gitba366ad
-# https://github.com/AyuGram/codegen.git
-Provides: bundled(codegen) = 0~git1c91960
-# https://gitlab.com/mnauw/cppgir.git
-Provides: bundled(cppgir) = 2.0~git2a7d9ce
 # https://github.com/KDE/kcoreaddons.git
-Provides: bundled(kf5-kcoreaddons) = 5.102.0~gitfd84da5
-# https://github.com/desktop-app/lib_base.git
-Provides: bundled(lib_base) = 0~git444ab33
-# https://github.com/desktop-app/lib_crl.git
-Provides: bundled(lib_crl) = 0~gita41edfc
-# https://github.com/AyuGram/lib_icu.git
-Provides: bundled(lib_icu) = 0~gitfd92c31
-# https://github.com/desktop-app/lib_lottie.git
-Provides: bundled(lib_lottie) = 0~git99d8cc4
+Provides: bundled(kcoreaddons) = 5.102.0~gitfd84da5
 # https://github.com/desktop-app/libprisma.git
 Provides: bundled(libprisma) = 0~git23b0d70
+# https://github.com/AyuGram/codegen.git
+Provides: bundled(codegen) = 0~gitbe951ec
+# https://github.com/TelegramMessenger/tgcalls.git
+Provides: bundled(tgcalls) = ios_release_11.13~git2faee3b
+# https://github.com/flatpak/xdg-desktop-portal.git
+Provides: bundled(xdg-desktop-portal) = 1.20.1~git23a76c3
+# https://github.com/desktop-app/lib_base.git
+Provides: bundled(lib_base) = 0~gitde35c7a
+# https://github.com/desktop-app/lib_crl.git
+Provides: bundled(lib_crl) = 0~git7a16530
+# https://github.com/AyuGram/lib_icu.git
+Provides: bundled(lib_icu) = 0~git7e55ddb
+# https://github.com/desktop-app/lib_lottie.git
+Provides: bundled(lib_lottie) = 0~git7d00b50
 # https://github.com/desktop-app/lib_qr.git
 Provides: bundled(lib_qr) = 0~git6fdf604
 # https://github.com/desktop-app/lib_rpl.git
 Provides: bundled(lib_rpl) = 0~gitc57cccf
 # https://github.com/desktop-app/lib_spellcheck
-Provides: bundled(lib_spellcheck) = 0~git476bb43
+Provides: bundled(lib_spellcheck) = 0~git3273fd2
 # https://github.com/desktop-app/lib_storage.git
 Provides: bundled(lib_storage) = 0~gitccdc725
 # https://github.com/AyuGram/lib_tl.git
-Provides: bundled(lib_tl) = 0~git6a1bf6b
+Provides: bundled(lib_tl) = 0~giteb38efe
 # https://github.com/AyuGram/lib_ui.git
-Provides: bundled(lib_ui) = 0~gitb1710a6
+Provides: bundled(lib_ui) = 0~gite3d0582
 # https://github.com/desktop-app/lib_webrtc.git
-Provides: bundled(lib_webrtc) = 0~git553102f
+Provides: bundled(lib_webrtc) = 0~git52636e8
 # https://github.com/desktop-app/lib_webview.git
-Provides: bundled(lib_webview) = 0~git55ea117
-# https://github.com/desktop-app/rlottie.git
-Provides: bundled(rlottie) = 0~git8c69fc2
-# https://github.com/TelegramMessenger/tgcalls.git
-Provides: bundled(tgcalls) = ios_release_11.13~git24876eb
-# https://github.com/flatpak/xdg-desktop-portal.git
-Provides: bundled(xdg-desktop-portal) = 1.20.1~git23a76c3
+Provides: bundled(lib_webview) = 0~git596fb24
+# https://github.com/desktop-app/cmake_helpers.git
+Provides: bundled(cmake_helpers) = 0~git5e21e7a
+# https://gitlab.com/mnauw/cppgir.git
+Provides: bundled(cppgir) = 2.0~git47cf94f
 Provides: bundled(vazirmatn-fonts) = 27.2.2
 Provides: bundled(minizip) = 1.2.13
 
@@ -231,6 +228,12 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/com.ayugram.desktop.d
 %{_metainfodir}/com.ayugram.desktop.metainfo.xml
 
 %changelog
+* Mon Oct 19 2026 Ivan Romanov <drizt72@zoho.eu> - 7.2.9-1
+- Bump to 7.2.9
+- Drop fix-hide-premium-statuses.patch. Applied by upstream
+- Drop gcc16.patch. Fixed by upstream
+- Add gsl.patch to fix compilation against newer Microsoft.GSL version
+
 * Sat Aug 22 2026 Leigh Scott <leigh123linux@gmail.com> - 6.7.8-4
 - Rebuild for new ffmpeg
 

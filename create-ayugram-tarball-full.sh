@@ -40,6 +40,7 @@ elif tag=$(git describe --tags --abbrev=0 2>/dev/null); then
 else
     ver="0~git${commit}"
 fi
+ver=$(printf "%s" "$ver" | tr "-" "_")
 
 echo "# $url"
 echo "Provides: bundled(${name}) = ${ver}"
